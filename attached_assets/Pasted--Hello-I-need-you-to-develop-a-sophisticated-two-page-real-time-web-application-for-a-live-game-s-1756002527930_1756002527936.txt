@@ -1,0 +1,102 @@
+"Hello! I need you to develop a sophisticated, two-page, real-time web application for a live game show called 'Tech Feud'. The application requires a private Admin Dashboard and a public Presenter Screen, which must be perfectly synchronized using Google Firebase Firestore. The user experience on the Presenter Screen should be highly dynamic and visually engaging, using the Lenis library for smooth, motion-rich UI effects.
+The game involves 10 contestants answering questions with 10 ranked answers. The admin controls the entire flow of the game from their dashboard.
+Here is the detailed breakdown of the project:
+1. Core Technologies:
+Frontend: HTML, Tailwind CSS, and modern vanilla JavaScript (ES6+).
+Real-time Database: Google Firebase Firestore. The application's state (scores, current question, visible elements, etc.) must be managed in Firestore to ensure seamless real-time updates between the admin and presenter pages.
+Dynamic UI: Implement the Lenis library (you can use a CDN link) to create a fluid and smooth scrolling/motion experience on the Presenter Screen. Animate transitions and reveals to make the game look polished and professional.
+2. Data Structure (Questions & Answers):
+Please hard-code the following question data directly into the application. This data is derived from the provided document. The point system is robust and should be used as is.
+JavaScript
+const questions = [
+    {
+        question: "You just switched on your laptop. Name one type of software or app you'll probably open right away.",
+        answers: [
+            { answer: "Web Browser (Chrome, Safari, etc.)", points: 30 },
+            { answer: "Email Client (Gmail, Outlook, etc.)", points: 21 },
+            { answer: "Messaging App (Slack, Teams, etc.)", points: 16 },
+            { answer: "Office Suite (Word, Excel, etc.)", points: 9 },
+            { answer: "Music Streaming (Spotify, etc.)", points: 7 },
+            { answer: "Social Media (X, Facebook, etc.)", points: 5 },
+            { answer: "Video Streaming (YouTube, etc.)", points: 4 },
+            { answer: "Search Engine (via browser)", points: 3 },
+            { answer: "Your Computer's OS / Finder", points: 3 },
+            { answer: "Maps / Navigation", points: 2 }
+        ]
+    },
+    {
+        question: "A beginner wants to learn coding. Which programming language would you recommend first?",
+        answers: [
+            { answer: "Python", points: 35 },
+            { answer: "JavaScript", points: 25 },
+            { answer: "Java", points: 12 },
+            { answer: "C# (C Sharp)", points: 8 },
+            { answer: "C++", points: 6 },
+            { answer: "Swift", points: 5 },
+            { answer: "SQL", points: 4 },
+            { answer: "TypeScript", points: 2 },
+            { answer: "PHP", points: 2 },
+            { answer: "Go", points: 1 }
+        ]
+    },
+    {
+        question: "Name a common mistake that causes people to lose access to their accounts.",
+        answers: [
+            { answer: "Phishing Scams", points: 32 },
+            { answer: "Using Weak or Reused Passwords", points: 25 },
+            { answer: "Not Using 2-Factor Authentication (2FA)", points: 14 },
+            { answer: "Malware / Viruses", points: 9 },
+            { answer: "Social Engineering", points: 6 },
+            { answer: "Using Unsafe Public Wi-Fi", points: 5 },
+            { answer: "Getting Caught in a Data Breach", points: 4 },
+            { answer: "Using Outdated Software", points: 2 },
+            { answer: "Physical Device Theft", points: 2 },
+            { answer: "Shoulder Surfing (Someone watching)", points: 1 }
+        ]
+    },
+    // Add the rest of the 25 questions from the document here in the same format...
+];
+
+
+3. Page 1: Admin Dashboard (admin.html)
+This is the host's control panel. Functionality over beauty is the priority here.
+Contestant Setup:
+10 input fields for the admin to type in the names of the 10 contestants.
+A "Start Game" button that initializes the game state in Firestore (sets all scores to 0, creates contestant profiles).
+Game Management:
+A dropdown menu populated with all the questions. The admin can select any question at random to start a round.
+A clear display showing "Current Turn: [Contestant Name]". The turn order must follow a "snake" draft pattern: 1 -> 10, then 10 -> 1, then 1 -> 10, and so on.
+A "Next Turn" button to advance to the next contestant.
+Answer Input & Scoring:
+For the selected question, display all 10 answers as clickable buttons.
+When the admin clicks an answer button:
+The corresponding answer should be revealed on the Presenter Screen.
+The points for that answer must be automatically added to the current contestant's total score in Firestore.
+The button on the admin panel should be disabled for the rest of the round.
+A prominent "NO ANSWER / WRONG" button. Clicking this gives the current contestant 0 points for their turn and immediately ends their turn.
+Presenter Screen Controls:
+A master control panel with toggle buttons to manage what is shown on the Presenter Screen. These buttons should update a 'displayState' object in Firestore.
+"Show/Hide Question"
+"Show/Hide Answer Board"
+"Show/Hide Leaderboard"
+"Show/Hide Welcome Screen"
+A "New Round" button that clears the answer board on the presenter screen (but keeps scores) and re-enables all answer buttons on the admin panel for the next question.
+4. Page 2: Presenter Screen (index.html)
+This page is for the audience. It must be visually stunning, with large, readable text and smooth animations for all state changes. It is read-only and pulls all its data from Firestore.
+Dynamic Views: The screen should dynamically switch between different views based on the admin's controls. Use smooth transitions (e.g., fade-in/fade-out) for switching.
+Welcome View: A title screen for "Tech Feud".
+Question View: Displays the current question in large, bold text.
+Answer Board View: This is the main game board. It should show 10 numbered, covered slots. When an answer is revealed by the admin, the corresponding slot should have a stylish "flip" or "reveal" animation to show the answer and its points.
+Leaderboard View: A beautifully designed, ranked list of all contestants and their scores. Animate the ranking changes if scores update.
+Live Status Display:
+Always have a section of the screen that prominently displays: "Answering Now: [Contestant Name]". This must update in real-time as the admin clicks "Next Turn".
+5. Real-Time Logic Flow:
+Admin opens admin.html. Presenter opens index.html.
+Admin enters contestant names and clicks "Start Game". This populates the contestant data in Firestore.
+The Presenter Screen listens for this change and is ready.
+Admin selects a question and toggles "Show Question". The question appears on the Presenter Screen.
+The turn indicator shows Contestant 1. Contestant 1 answers.
+Admin clicks the corresponding answer button. On the Presenter Screen, the answer slot flips to reveal the content, and the points are added to the score. The leaderboard data in Firestore is updated.
+Admin clicks "Next Turn". The "Answering Now" display on the Presenter Screen updates to Contestant 2.
+This continues for all contestants. The admin can show/hide the leaderboard at any time to build suspense.
+For the next round, the admin selects a new question and clicks "New Round"."

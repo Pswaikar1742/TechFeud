@@ -247,43 +247,44 @@ def events():
     def event_stream():
         while True:
             try:
-                game = get_or_create_game()
-                contestants = Contestant.query.order_by(Contestant.position).all()
-                current_question = next((q for q in questions if q['id'] == game.current_question_id), None)
-                
-                contestants_data = []
-                for contestant in contestants:
-                    contestants_data.append({
-                        'id': contestant.id,
-                        'name': contestant.name,
-                        'score': contestant.score,
-                        'position': contestant.position
-                    })
-                
-                leaderboard = sorted(contestants_data, key=lambda x: x['score'], reverse=True)
-                
-                current_contestant = None
-                if contestants and 0 <= game.current_turn < len(contestants):
-                    current_contestant = contestants_data[game.current_turn]
-                
-                data = {
-                    'game': {
-                        'is_active': game.is_active,
-                        'current_question_id': game.current_question_id,
-                        'current_turn': game.current_turn,
-                        'show_question': game.show_question,
-                        'show_answers': game.show_answers,
-                        'show_leaderboard': game.show_leaderboard,
-                        'show_welcome': game.show_welcome,
-                        'revealed_answers': game.get_revealed_answers()
-                    },
-                    'contestants': contestants_data,
-                    'leaderboard': leaderboard,
-                    'current_contestant': current_contestant,
-                    'current_question': current_question
-                }
-                
-                yield f"data: {json.dumps(data)}\n\n"
+                with app.app_context():
+                    game = get_or_create_game()
+                    contestants = Contestant.query.order_by(Contestant.position).all()
+                    current_question = next((q for q in questions if q['id'] == game.current_question_id), None)
+                    
+                    contestants_data = []
+                    for contestant in contestants:
+                        contestants_data.append({
+                            'id': contestant.id,
+                            'name': contestant.name,
+                            'score': contestant.score,
+                            'position': contestant.position
+                        })
+                    
+                    leaderboard = sorted(contestants_data, key=lambda x: x['score'], reverse=True)
+                    
+                    current_contestant = None
+                    if contestants and 0 <= game.current_turn < len(contestants):
+                        current_contestant = contestants_data[game.current_turn]
+                    
+                    data = {
+                        'game': {
+                            'is_active': game.is_active,
+                            'current_question_id': game.current_question_id,
+                            'current_turn': game.current_turn,
+                            'show_question': game.show_question,
+                            'show_answers': game.show_answers,
+                            'show_leaderboard': game.show_leaderboard,
+                            'show_welcome': game.show_welcome,
+                            'revealed_answers': game.get_revealed_answers()
+                        },
+                        'contestants': contestants_data,
+                        'leaderboard': leaderboard,
+                        'current_contestant': current_contestant,
+                        'current_question': current_question
+                    }
+                    
+                    yield f"data: {json.dumps(data)}\n\n"
                 time.sleep(1)
             except Exception as e:
                 app.logger.error(f"Error in event stream: {e}")

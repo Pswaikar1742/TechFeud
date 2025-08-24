@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Tech Feud - Admin Dashboard{% endblock %}
+
+{% block body_class %}bg-gray-900 text-white{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-4">
+    <header class="text-center mb-8">
+        <h1 class="text-4xl font-game text-feud-gold mb-2">TECH FEUD</h1>
+        <h2 class="text-xl text-gray-300">Admin Dashboard</h2>
+    </header>
+
+    <!-- Game Setup Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Contestant Setup -->
+        <div class="bg-gray-800 rounded-lg p-6">
+            <h3 class="text-2xl font-bold mb-4 text-feud-gold">
+                <i class="fas fa-users mr-2"></i>Contestant Setup
+            </h3>
+            <div id="contestant-form">
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <input type="text" placeholder="Contestant 1" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="0">
+                    <input type="text" placeholder="Contestant 2" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="1">
+                    <input type="text" placeholder="Contestant 3" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="2">
+                    <input type="text" placeholder="Contestant 4" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="3">
+                    <input type="text" placeholder="Contestant 5" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="4">
+                    <input type="text" placeholder="Contestant 6" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="5">
+                    <input type="text" placeholder="Contestant 7" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="6">
+                    <input type="text" placeholder="Contestant 8" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="7">
+                    <input type="text" placeholder="Contestant 9" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="8">
+                    <input type="text" placeholder="Contestant 10" class="contestant-input bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" data-index="9">
+                </div>
+                <button id="start-game" class="w-full bg-feud-green hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+                    <i class="fas fa-play mr-2"></i>Start Game
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Management -->
+        <div class="bg-gray-800 rounded-lg p-6">
+            <h3 class="text-2xl font-bold mb-4 text-feud-gold">
+                <i class="fas fa-gamepad mr-2"></i>Game Management
+            </h3>
+            
+            <!-- Current Turn Display -->
+            <div class="mb-4 p-4 bg-feud-blue rounded-lg">
+                <h4 class="text-lg font-bold mb-2">Current Turn</h4>
+                <div id="current-turn" class="text-2xl font-game text-feud-gold">No game active</div>
+                <button id="next-turn" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" disabled>
+                    <i class="fas fa-arrow-right mr-2"></i>Next Turn
+                </button>
+            </div>
+
+            <!-- Question Selection -->
+            <div class="mb-4">
+                <label class="block text-gray-300 text-sm font-bold mb-2">
+                    Select Question:
+                </label>
+                <select id="question-select" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white" disabled>
+                    <option value="">Choose a question...</option>
+                </select>
+            </div>
+
+            <!-- Game Controls -->
+            <div class="mb-4">
+                <button id="new-round" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-colors" disabled>
+                    <i class="fas fa-refresh mr-2"></i>New Round
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Answer Controls -->
+    <div class="mt-8 bg-gray-800 rounded-lg p-6">
+        <h3 class="text-2xl font-bold mb-4 text-feud-gold">
+            <i class="fas fa-list mr-2"></i>Answer Controls
+        </h3>
+        <div id="answer-buttons" class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
+            <!-- Answer buttons will be populated by JavaScript -->
+        </div>
+        <button id="no-answer" class="w-full bg-feud-red hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors" disabled>
+            <i class="fas fa-times mr-2"></i>NO ANSWER / WRONG
+        </button>
+    </div>
+
+    <!-- Display Controls -->
+    <div class="mt-8 bg-gray-800 rounded-lg p-6">
+        <h3 class="text-2xl font-bold mb-4 text-feud-gold">
+            <i class="fas fa-tv mr-2"></i>Presenter Screen Controls
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button id="toggle-welcome" class="display-toggle bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-4 rounded-lg transition-colors" data-type="welcome">
+                <i class="fas fa-home mr-2"></i>Show Welcome
+            </button>
+            <button id="toggle-question" class="display-toggle bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-4 rounded-lg transition-colors" data-type="question">
+                <i class="fas fa-question mr-2"></i>Show Question
+            </button>
+            <button id="toggle-answers" class="display-toggle bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-4 rounded-lg transition-colors" data-type="answers">
+                <i class="fas fa-list-ol mr-2"></i>Show Answers
+            </button>
+            <button id="toggle-leaderboard" class="display-toggle bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-4 rounded-lg transition-colors" data-type="leaderboard">
+                <i class="fas fa-trophy mr-2"></i>Show Leaderboard
+            </button>
+        </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="status-messages" class="mt-4"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

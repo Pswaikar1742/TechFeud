@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Tech Feud - Presenter Screen{% endblock %}
+
+{% block body_class %}bg-gradient-to-br from-feud-blue via-blue-800 to-blue-900 text-white overflow-hidden{% endblock %}
+
+{% block content %}
+<div class="min-h-screen relative">
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-feud-blue to-blue-900">
+        <div class="text-center">
+            <h1 class="text-8xl font-game text-feud-gold mb-4 animate-pulse">TECH FEUD</h1>
+            <p class="text-3xl text-blue-200">The Ultimate Technology Game Show</p>
+            <div class="mt-8">
+                <i class="fas fa-laptop-code text-6xl text-feud-gold"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen" class="hidden">
+        <!-- Current Turn Display -->
+        <div class="absolute top-4 left-4 right-4 z-10">
+            <div class="bg-black bg-opacity-50 rounded-lg p-4 text-center">
+                <div class="text-xl text-gray-300">Answering Now:</div>
+                <div id="current-turn-display" class="text-4xl font-game text-feud-gold">Waiting...</div>
+            </div>
+        </div>
+
+        <!-- Question Display -->
+        <div id="question-section" class="hidden pt-24 pb-8">
+            <div class="container mx-auto px-4 text-center">
+                <div class="bg-black bg-opacity-50 rounded-lg p-8">
+                    <h2 class="text-5xl font-game text-feud-gold mb-4">QUESTION</h2>
+                    <p id="question-text" class="text-3xl text-white leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Answer Board -->
+        <div id="answer-board" class="hidden">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div id="answers-left" class="space-y-3"></div>
+                    <div id="answers-right" class="space-y-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="leaderboard-section" class="hidden">
+            <div class="container mx-auto px-4">
+                <div class="bg-black bg-opacity-50 rounded-lg p-8">
+                    <h2 class="text-5xl font-game text-feud-gold mb-8 text-center">LEADERBOARD</h2>
+                    <div id="leaderboard-list" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/presenter.js') }}"></script>
+{% endblock %}
